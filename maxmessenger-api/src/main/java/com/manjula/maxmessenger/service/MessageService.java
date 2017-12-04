@@ -9,7 +9,7 @@ import java.util.List;
  */
 public interface MessageService {
 
-    void save(MessageDto messageDto);
+    void save(String userId, MessageDto messageDto);
 
     MessageDto findById(String id);
 

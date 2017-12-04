@@ -23,6 +23,9 @@ public class Message {
     @Column(name = "created_date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date date;
+    @ManyToOne
+    @JoinColumn(name="user_id")
+    private User user;
 
     public static Message valueOf(MessageDto dto) {
         Message message = new Message();

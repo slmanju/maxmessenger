@@ -31,9 +31,9 @@ public class MessageController {
         return (messageDto == null) ? ResponseEntity.notFound().build() : ResponseEntity.ok(messageDto);
     }
 
-    @PostMapping(value = "")
-    public ResponseEntity<?> createMessage(@RequestBody MessageDto messageDto) {
-        messageService.save(messageDto);
+    @PostMapping(value = "/user/{userId}")
+    public ResponseEntity<?> createMessage(@PathVariable("userId") String userId, @RequestBody MessageDto messageDto) {
+        messageService.save(userId, messageDto);
         return ResponseEntity.created(URI.create("/messages")).body(messageDto);
     }
 

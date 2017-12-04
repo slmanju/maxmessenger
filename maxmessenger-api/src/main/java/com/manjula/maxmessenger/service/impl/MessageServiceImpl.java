@@ -1,9 +1,12 @@
 package com.manjula.maxmessenger.service.impl;
 
 import com.manjula.maxmessenger.dto.MessageDto;
+import com.manjula.maxmessenger.dto.UserDto;
 import com.manjula.maxmessenger.model.Message;
+import com.manjula.maxmessenger.model.User;
 import com.manjula.maxmessenger.repository.MessageRepository;
 import com.manjula.maxmessenger.service.MessageService;
+import com.manjula.maxmessenger.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,20 +14,24 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.*;
 import java.util.stream.Collectors;
 
-/**
- * Created by manjula on 12/4/17.
- */
 @Service
 @Transactional
 public class MessageServiceImpl implements MessageService {
 
     @Autowired
     private MessageRepository messageRepository;
+    @Autowired
+    private UserService userService;
 
     @Override
-    public void save(MessageDto messageDto) {
+    public void save(String userId, MessageDto messageDto) {
+        UserDto userDto = userService.findById(userId);
+
         messageDto.setDate(new Date());
-        messageRepository.save(Message.valueOf(messageDto));
+
+        Message message = Message.valueOf(messageDto);
+        message.setUser(User.valueOf(userDto));
+        messageRepository.save(message);
     }
 
     @Override
