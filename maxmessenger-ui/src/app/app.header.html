@@ -1,0 +1,30 @@
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navi-logo">
+        <img src="assets/logo.svg" >
+      </a>
+      <span class="navbar-brand">MaxMessenger</span>
+    </div>
+    <ul class="nav navbar-nav">
+      <li class="active"><a href="#">
+        Home <span class="sr-only">(current)</span>
+      </a></li>
+      <li><a href="#">Users</a></li>
+      <li><a href="#">Messages</a></li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+      <li class="dropdown" dropdown> <!-- {1} -->
+        <a dropdownToggle role="button"> <!-- {2} -->
+          <i class="fa fa-user fa-fw"></i> User <span class="caret"></span>
+        </a>
+        <ul *dropdownMenu class="dropdown-menu"> <!-- {3} -->
+          <li><a href="#">Profile</a></li>
+          <li role="separator" class="divider"></li>
+          <li><a href="#">Logout</a></li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</nav>
+
