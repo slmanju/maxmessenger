@@ -1,6 +1,6 @@
 package com.manjula.maxmessenger.controller;
 
-import com.manjula.maxmessenger.dto.Message;
+import com.manjula.maxmessenger.dto.MessageDto;
 import com.manjula.maxmessenger.service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,21 +20,38 @@ public class MessageController {
     private MessageService messageService;
 
     @GetMapping(value = "")
-    public ResponseEntity<List<Message>> index() {
-        List<Message> messages = messageService.findAll();
-        return ResponseEntity.ok(messages);
+    public ResponseEntity<?> index() {
+        List<MessageDto> messageDtos = messageService.findAll();
+        return (messageDtos.isEmpty()) ? ResponseEntity.notFound().build() : ResponseEntity.ok(messageDtos);
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<Message> getMessage(@PathVariable("id") String id) {
-        Message message = messageService.findById(id);
-        return ResponseEntity.ok(message);
+    public ResponseEntity<?> getMessage(@PathVariable("id") String id) {
+        MessageDto messageDto = messageService.findById(id);
+        return (messageDto == null) ? ResponseEntity.notFound().build() : ResponseEntity.ok(messageDto);
     }
 
     @PostMapping(value = "")
-    public ResponseEntity<Message> createMessage(@RequestBody Message message) {
-        messageService.create(message);
-        return ResponseEntity.created(URI.create("/messages")).body(message);
+    public ResponseEntity<?> createMessage(@RequestBody MessageDto messageDto) {
+        messageService.save(messageDto);
+        return ResponseEntity.created(URI.create("/messages")).body(messageDto);
+    }
+
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<?> updateMessage(@PathVariable("id") String id, @RequestBody MessageDto messageDto) {
+        MessageDto existing = messageService.findById(id);
+        if (existing == null) {
+            return ResponseEntity.notFound().build();
+        }
+        messageDto.setId(existing.getId());
+        messageService.update(messageDto);
+        return ResponseEntity.ok(messageDto);
+    }
+
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<?> deleteMessage(@PathVariable("id") String id) {
+        messageService.delete(id);
+        return ResponseEntity.ok(id);
     }
 
 }

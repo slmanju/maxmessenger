@@ -1,6 +1,6 @@
 package com.manjula.maxmessenger.service;
 
-import com.manjula.maxmessenger.dto.Message;
+import com.manjula.maxmessenger.dto.MessageDto;
 
 import java.util.List;
 
@@ -9,12 +9,14 @@ import java.util.List;
  */
 public interface MessageService {
 
-    void create(Message message);
+    void save(MessageDto messageDto);
 
-    Message findById(String id);
+    MessageDto findById(String id);
 
-    void update(String id, Message message);
+    void update(MessageDto messageDto);
 
-    List<Message> findAll();
+    void delete(String id);
+
+    List<MessageDto> findAll();
 
 }

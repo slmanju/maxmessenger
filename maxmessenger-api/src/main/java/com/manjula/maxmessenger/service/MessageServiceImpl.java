@@ -1,41 +1,51 @@
 package com.manjula.maxmessenger.service;
 
-import com.manjula.maxmessenger.dto.Message;
+import com.manjula.maxmessenger.dto.MessageDto;
+import com.manjula.maxmessenger.model.Message;
+import com.manjula.maxmessenger.repository.MessageRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Created by manjula on 12/4/17.
  */
 @Service
+@Transactional
 public class MessageServiceImpl implements MessageService {
 
-    private static List<Message> messges = new ArrayList<>();
+    @Autowired
+    private MessageRepository messageRepository;
 
     @Override
-    public void create(Message message) {
-        message.setId("" + System.currentTimeMillis());
-        message.setDate(new Date());
-        messges.add(message);
-        System.out.println("============================");
-        System.out.println(messges.size());
-        System.out.println("============================");
+    public void save(MessageDto messageDto) {
+        messageDto.setDate(new Date());
+        messageRepository.save(Message.valueOf(messageDto));
     }
 
     @Override
-    public Message findById(String id) {
-        return messges.stream().filter(message -> id.equals(message.getId())).findFirst().orElse(null);
+    public MessageDto findById(String id) {
+        Message message = messageRepository.findOne(id);
+        return (message != null) ? message.view() : null;
     }
 
     @Override
-    public void update(String id, Message message) {
-
+    public void update(MessageDto messageDto) {
+        messageRepository.save(Message.valueOf(messageDto));
     }
 
     @Override
-    public List<Message> findAll() {
-        return messges;
+    public void delete(String id) {
+        messageRepository.delete(id);
+    }
+
+    @Override
+    public List<MessageDto> findAll() {
+        List<Message> messages = messageRepository.findAll();
+        return messages.stream().map(Message::view).collect(Collectors.toList());
     }
 
 }
