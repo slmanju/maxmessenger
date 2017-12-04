@@ -1,20 +1,20 @@
 <nav class="navbar navbar-default">
   <div class="container-fluid">
     <div class="navbar-header">
-      <a class="navi-logo">
+      <a class="navi-logo" [routerLink]="['']">
         <img src="assets/logo.svg" >
+        <span class="navbar-brand">MaxMessenger</span>
       </a>
-      <span class="navbar-brand">MaxMessenger</span>
     </div>
     <ul class="nav navbar-nav">
-      <li routerLinkActive="active">
-        <a [routerLink]="['/']">Home</a>
+      <li [routerLinkActive]="['active']">
+        <a [routerLink]="['home']">Home</a>
       </li>
-      <li routerLinkActive="active">
-        <a [routerLink]="['/users']">Users</a>
+      <li [routerLinkActive]="['active']">
+        <a [routerLink]="['users']">Users</a>
       </li>
-      <li routerLinkActive="active">
-        <a [routerLink]="['/messages']">Messages</a>
+      <li [routerLinkActive]="['active']">
+        <a [routerLink]="['messages']">Messages</a>
       </li>
     </ul>
     <ul class="nav navbar-nav navbar-right">

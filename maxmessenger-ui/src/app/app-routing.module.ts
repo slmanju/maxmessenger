@@ -8,6 +8,7 @@ import { HomeComponent } from './home/home.component';
 const routes: Routes = [
   /*{ path: '', redirectTo: '/', pathMatch: 'full' },*/
   { path: '', component: HomeComponent, pathMatch: 'full' },
+  { path: 'home', component: HomeComponent },
   { path: 'messages', component: MessagesComponent },
   { path: 'users', component: UsersComponent }
 ];
