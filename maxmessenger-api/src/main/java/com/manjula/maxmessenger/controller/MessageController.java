@@ -1,5 +1,6 @@
 package com.manjula.maxmessenger.controller;
 
+import com.manjula.maxmessenger.controller.util.Preconditions;
 import com.manjula.maxmessenger.dto.MessageDto;
 import com.manjula.maxmessenger.service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,9 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 import java.util.List;
 
-/**
- * Created by manjula on 12/4/17.
- */
 @RestController()
 @RequestMapping("/messages")
 public class MessageController {
@@ -22,13 +20,15 @@ public class MessageController {
     @GetMapping(value = "")
     public ResponseEntity<?> index() {
         List<MessageDto> messageDtos = messageService.findAll();
-        return (messageDtos.isEmpty()) ? ResponseEntity.notFound().build() : ResponseEntity.ok(messageDtos);
+        messageDtos = Preconditions.validate(messageDtos);
+        return ResponseEntity.ok(messageDtos);
     }
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<?> getMessage(@PathVariable("id") String id) {
         MessageDto messageDto = messageService.findById(id);
-        return (messageDto == null) ? ResponseEntity.notFound().build() : ResponseEntity.ok(messageDto);
+        messageDto = Preconditions.validate(messageDto);
+        return ResponseEntity.ok(messageDto);
     }
 
     @PostMapping(value = "/user/{userId}")
@@ -40,9 +40,7 @@ public class MessageController {
     @PutMapping(value = "/{id}")
     public ResponseEntity<?> updateMessage(@PathVariable("id") String id, @RequestBody MessageDto messageDto) {
         MessageDto existing = messageService.findById(id);
-        if (existing == null) {
-            return ResponseEntity.notFound().build();
-        }
+        existing = Preconditions.validate(existing);
         messageDto.setId(existing.getId());
         messageService.update(messageDto);
         return ResponseEntity.ok(messageDto);
