@@ -11,13 +11,21 @@ import { HeaderComponent } from './app.header';
 import { MessagesComponent } from './messages/messages.component';
 import { UsersComponent } from './users/users.component';
 import { HomeComponent } from './home/home.component';
+import { MessagesInputComponent } from './messages/messages-input.component';
+import {FormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [
-    [ AppComponent, HeaderComponent, MessagesComponent, UsersComponent, HomeComponent]
+    [ AppComponent,
+      HeaderComponent,
+      MessagesComponent,
+      MessagesInputComponent,
+      UsersComponent,
+      HomeComponent
+    ]
   ],
   imports: [
-    [ BrowserModule, AppBootstrapModule, AngularFontAwesomeModule, AppRoutingModule ]
+    [ BrowserModule, FormsModule, AppBootstrapModule, AngularFontAwesomeModule, AppRoutingModule ]
   ],
   providers: [],
   bootstrap: [AppComponent]
