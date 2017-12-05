@@ -1,6 +1,6 @@
 package com.manjula.maxmessenger.controller.util;
 
-import com.manjula.maxmessenger.controller.exception.ResourceNotFoundException;
+import com.manjula.maxmessenger.controller.exception.NotFoundException;
 
 import java.util.List;
 
@@ -12,20 +12,20 @@ public final class Preconditions {
 
     public static void validate(final boolean expression) {
         if (!expression) {
-            throw new ResourceNotFoundException();
+            throw new NotFoundException();
         }
     }
 
     public static <T> T validate(final T resource) {
         if (resource == null) {
-            throw new ResourceNotFoundException();
+            throw new NotFoundException();
         }
         return resource;
     }
 
     public static <T> List<T> validate(final List<T> resource) {
         if (resource == null || resource.isEmpty()) {
-            throw new ResourceNotFoundException();
+            throw new NotFoundException();
         }
         return resource;
     }

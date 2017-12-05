@@ -45,16 +45,17 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(final MethodArgumentNotValidException ex, final HttpHeaders headers, final HttpStatus status, final WebRequest request) {
-        final String bodyOfResponse = "This should be application specific";
-        return handleExceptionInternal(ex, bodyOfResponse, headers, HttpStatus.BAD_REQUEST, request);
+        ErrorMessage message = new ErrorMessage();
+        return handleExceptionInternal(ex, message, headers, HttpStatus.BAD_REQUEST, request);
     }
 
 
     // 404
-    @ExceptionHandler(value = { EntityNotFoundException.class, ResourceNotFoundException.class })
+    @ExceptionHandler(value = { EntityNotFoundException.class, NotFoundException.class })
     protected ResponseEntity<Object> handleNotFound(final RuntimeException ex, final WebRequest request) {
-        final String bodyOfResponse = "This should be application specific";
-        return handleExceptionInternal(ex, bodyOfResponse, new HttpHeaders(), HttpStatus.NOT_FOUND, request);
+        final HttpStatus status = HttpStatus.NOT_FOUND;
+        final ErrorMessage message = new ErrorMessage(status.value(), status.getReasonPhrase(), "Requested resource not found");
+        return handleExceptionInternal(ex, message, new HttpHeaders(), status, request);
     }
 
     // 409
