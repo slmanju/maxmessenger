@@ -1,6 +1,5 @@
 package com.manjula.maxmessenger.controller;
 
-import com.manjula.maxmessenger.controller.exception.BadRequestException;
 import com.manjula.maxmessenger.controller.exception.NotFoundException;
 import com.manjula.maxmessenger.controller.util.Preconditions;
 import com.manjula.maxmessenger.dto.MessageDto;
@@ -40,15 +39,16 @@ public class MessageController {
     public ResponseEntity<?> createMessage(@PathVariable("userId") String userId,
                                            @RequestBody @Valid MessageDto messageDto,
                                            BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            throw new BadRequestException("Invalid data");
-        }
-        messageService.save(userId, messageDto);
+        Preconditions.validate(bindingResult);
+        messageDto = messageService.save(userId, messageDto);
         return ResponseEntity.created(URI.create("/messages")).body(messageDto);
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<?> updateMessage(@PathVariable("id") String id, @RequestBody MessageDto messageDto) {
+    public ResponseEntity<?> updateMessage(@PathVariable("id") String id,
+                                           @RequestBody @Valid MessageDto messageDto,
+                                           BindingResult bindingResult) {
+        Preconditions.validate(bindingResult);
         MessageDto existing = messageService.findById(id);
         existing = Preconditions.validate(existing);
         messageDto.setId(existing.getId());

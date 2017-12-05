@@ -26,14 +26,15 @@ public class MessageServiceImpl implements MessageService {
     private UserService userService;
 
     @Override
-    public void save(String userId, MessageDto messageDto) {
+    public MessageDto save(String userId, MessageDto messageDto) {
         UserDto userDto = userService.findById(userId);
 
         messageDto.setDate(new Date());
 
         Message message = Message.valueOf(messageDto);
         message.setUser(User.valueOf(userDto));
-        messageRepository.save(message);
+        message = messageRepository.save(message);
+        return message.view();
     }
 
     @Override

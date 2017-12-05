@@ -1,6 +1,8 @@
 package com.manjula.maxmessenger.controller.util;
 
+import com.manjula.maxmessenger.controller.exception.BadRequestException;
 import com.manjula.maxmessenger.controller.exception.NotFoundException;
+import org.springframework.validation.BindingResult;
 
 import java.util.List;
 
@@ -28,6 +30,12 @@ public final class Preconditions {
             throw new NotFoundException();
         }
         return resource;
+    }
+
+    public static void validate(final BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            throw new BadRequestException("Invalid data");
+        }
     }
 
 }
