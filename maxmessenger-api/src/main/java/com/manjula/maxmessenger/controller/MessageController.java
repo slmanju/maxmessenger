@@ -1,9 +1,11 @@
 package com.manjula.maxmessenger.controller;
 
+import com.manjula.maxmessenger.controller.exception.NotFoundException;
 import com.manjula.maxmessenger.controller.util.Preconditions;
 import com.manjula.maxmessenger.dto.MessageDto;
 import com.manjula.maxmessenger.service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -50,6 +52,18 @@ public class MessageController {
     public ResponseEntity<?> deleteMessage(@PathVariable("id") String id) {
         messageService.delete(id);
         return ResponseEntity.ok(id);
+    }
+
+    @GetMapping(params = { "page", "size" })
+    public ResponseEntity<?> findPaginated(@RequestParam("page") int page, @RequestParam("size") int size) {
+        if (page < 1 || size < 1) {
+            throw new NotFoundException();
+        }
+        final Page<MessageDto> resultPage = messageService.findPaginated(page, size);
+        if (page > resultPage.getTotalPages()) {
+            throw new NotFoundException();
+        }
+        return ResponseEntity.ok(resultPage);
     }
 
 }

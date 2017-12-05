@@ -1,12 +1,10 @@
 package com.manjula.maxmessenger.service;
 
 import com.manjula.maxmessenger.dto.MessageDto;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
-/**
- * Created by manjula on 12/4/17.
- */
 public interface MessageService {
 
     void save(String userId, MessageDto messageDto);
@@ -19,4 +17,5 @@ public interface MessageService {
 
     List<MessageDto> findAll();
 
+    Page<MessageDto> findPaginated(int page, int size);
 }

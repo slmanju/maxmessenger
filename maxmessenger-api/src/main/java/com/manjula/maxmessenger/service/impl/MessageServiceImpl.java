@@ -8,6 +8,8 @@ import com.manjula.maxmessenger.repository.MessageRepository;
 import com.manjula.maxmessenger.service.MessageService;
 import com.manjula.maxmessenger.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -54,6 +56,12 @@ public class MessageServiceImpl implements MessageService {
     public List<MessageDto> findAll() {
         List<Message> messages = messageRepository.findAll();
         return messages.stream().map(Message::view).collect(Collectors.toList());
+    }
+
+    @Override
+    public Page<MessageDto> findPaginated(int page, int size) {
+        Page<Message> entities = messageRepository.findAll(new PageRequest(page - 1, size));
+        return entities.map(Message::view);
     }
 
 }
