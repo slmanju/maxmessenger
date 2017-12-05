@@ -24,6 +24,13 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     // 400
+    @ExceptionHandler({ BadRequestException.class })
+    public ResponseEntity<Object> handleBadRequest(final BadRequestException ex, final WebRequest request) {
+        final HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
+        final ErrorMessage message = new ErrorMessage(httpStatus.value(), httpStatus.getReasonPhrase(), "Bad request, " + ex.getMessage());
+        return handleExceptionInternal(ex, message, new HttpHeaders(), httpStatus, request);
+    }
+
     @ExceptionHandler({ ConstraintViolationException.class })
     public ResponseEntity<Object> handleBadRequest(final ConstraintViolationException ex, final WebRequest request) {
         final String bodyOfResponse = "This should be application specific";
@@ -45,8 +52,9 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(final MethodArgumentNotValidException ex, final HttpHeaders headers, final HttpStatus status, final WebRequest request) {
-        ErrorMessage message = new ErrorMessage();
-        return handleExceptionInternal(ex, message, headers, HttpStatus.BAD_REQUEST, request);
+        final HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
+        final ErrorMessage message = new ErrorMessage(httpStatus.value(), httpStatus.getReasonPhrase(), "Bad request");
+        return handleExceptionInternal(ex, message, headers, httpStatus, request);
     }
 
 

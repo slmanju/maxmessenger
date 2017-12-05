@@ -1,5 +1,6 @@
 package com.manjula.maxmessenger.controller;
 
+import com.manjula.maxmessenger.controller.exception.BadRequestException;
 import com.manjula.maxmessenger.controller.exception.NotFoundException;
 import com.manjula.maxmessenger.controller.util.Preconditions;
 import com.manjula.maxmessenger.dto.MessageDto;
@@ -7,8 +8,10 @@ import com.manjula.maxmessenger.service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
@@ -34,7 +37,12 @@ public class MessageController {
     }
 
     @PostMapping(value = "/user/{userId}")
-    public ResponseEntity<?> createMessage(@PathVariable("userId") String userId, @RequestBody MessageDto messageDto) {
+    public ResponseEntity<?> createMessage(@PathVariable("userId") String userId,
+                                           @RequestBody @Valid MessageDto messageDto,
+                                           BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            throw new BadRequestException("Invalid data");
+        }
         messageService.save(userId, messageDto);
         return ResponseEntity.created(URI.create("/messages")).body(messageDto);
     }
