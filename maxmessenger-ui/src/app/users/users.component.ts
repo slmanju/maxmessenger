@@ -12,10 +12,10 @@ export class UsersComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    this.users.push(new User('Manjula', 'Jayawardana', 'manjula@seebo.com', '1983-10-13'));
-    this.users.push(new User('Manjula', 'Jayawardana', 'manjula@seebo.com', '1983-10-13'));
-    this.users.push(new User('Manjula', 'Jayawardana', 'manjula@seebo.com', '1983-10-13'));
-    this.users.push(new User('Manjula', 'Jayawardana', 'manjula@seebo.com', '1983-10-13'));
+    this.users.push(new User('Manjula', 'Jayawardana', 'manjula@seebo.com', '1983-10-13', '1'));
+    this.users.push(new User('Manjula', 'Jayawardana', 'manjula@seebo.com', '1983-10-13', '2'));
+    this.users.push(new User('Manjula', 'Jayawardana', 'manjula@seebo.com', '1983-10-13', '3'));
+    this.users.push(new User('Manjula', 'Jayawardana', 'manjula@seebo.com', '1983-10-13', '4'));
   }
 
 }
