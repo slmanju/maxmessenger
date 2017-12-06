@@ -1,5 +1,4 @@
-import {Component, OnInit, TemplateRef} from '@angular/core';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap';
+import { Component, OnInit } from '@angular/core';
 
 import { Message } from './message.model';
 import { MessagesService } from './messages.service';
@@ -10,22 +9,12 @@ import { MessagesService } from './messages.service';
   styleUrls: [ './messages.component.css' ]
 })
 export class MessagesComponent implements OnInit {
-  modalRef: BsModalRef;
   messages: Message[] = [];
 
-  constructor(private messageService: MessagesService, private modalService: BsModalService) {}
+  constructor(private messageService: MessagesService) {}
 
   ngOnInit() {
-      this.messages = this.messageService.getMessages();
-  }
-
-  onAddMessage(message: Message) {
-    message.author = 'Manjula';
-    this.messages.push(message);
-  }
-
-  openModal(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template);
+    this.messageService.getMessages().subscribe(messages => this.messages = messages);
   }
 
 }
