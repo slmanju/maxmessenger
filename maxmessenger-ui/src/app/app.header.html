@@ -10,8 +10,13 @@
       <li [routerLinkActive]="['active']">
         <a [routerLink]="['home']">Home</a>
       </li>
-      <li [routerLinkActive]="['active']">
-        <a [routerLink]="['users']">Users</a>
+      <li class="dropdown" dropdown>
+        <a dropdownToggle role="button">Users</a>
+        <ul *dropdownMenu class="dropdown-menu">
+          <li><a [routerLink]="['users']">View</a></li>
+          <li role="separator" class="divider"></li>
+          <li><a routerLink="/user/new">Add</a></li>
+        </ul>
       </li>
       <li [routerLinkActive]="['active']">
         <a [routerLink]="['messages']">Messages</a>

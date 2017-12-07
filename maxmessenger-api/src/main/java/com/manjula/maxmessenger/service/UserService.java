@@ -1,12 +1,13 @@
 package com.manjula.maxmessenger.service;
 
+import com.manjula.maxmessenger.dto.RoleDto;
 import com.manjula.maxmessenger.dto.UserDto;
 
 import java.util.List;
 
 public interface UserService {
 
-    void save(UserDto userDto);
+    UserDto save(UserDto userDto);
 
     UserDto findById(String id);
 
@@ -16,4 +17,7 @@ public interface UserService {
 
     List<UserDto> findAll();
 
+    RoleDto saveRole(RoleDto roleDto);
+
+    List<RoleDto> findRoles();
 }

@@ -23,6 +23,9 @@ public class User {
     @Temporal(TemporalType.TIMESTAMP)
     private Date birthDate;
     private String profilePicture = "noimage.png";
+    @ManyToOne
+    @JoinColumn(name = "role_id")
+    private Role role;
 
     public static User valueOf(UserDto dto) {
         User user = new User();
@@ -33,6 +36,7 @@ public class User {
         user.setLastName(dto.getLastName());
         user.setBirthDate(dto.getBirthDate());
         user.setProfilePicture(dto.getProfilePicture());
+        user.setRole(Role.valueOf(dto.getRole()));
         return user;
     }
 
@@ -45,6 +49,7 @@ public class User {
         dto.setLastName(lastName);
         dto.setBirthDate(birthDate);
         dto.setProfilePicture(profilePicture);
+        dto.setRole(role.view());
         return dto;
     }
 
