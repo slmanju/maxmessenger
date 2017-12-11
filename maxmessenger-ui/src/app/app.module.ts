@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 
@@ -28,8 +29,14 @@ import { FieldErrorComponent } from './field-error/field-error.component';
       FieldErrorComponent
   ],
   imports: [
-    [ BrowserModule, FormsModule, AppBootstrapModule, AngularFontAwesomeModule, AppRoutingModule,
-      ReactiveFormsModule ]
+    [ BrowserModule,
+      FormsModule,
+      AppBootstrapModule,
+      AngularFontAwesomeModule,
+      AppRoutingModule,
+      ReactiveFormsModule,
+      HttpClientModule
+    ]
   ],
   providers: [],
   bootstrap: [AppComponent]
