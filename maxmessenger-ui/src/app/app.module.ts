@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 
@@ -14,6 +14,7 @@ import { UsersComponent } from './users/users.component';
 import { UsersEditComponent } from './users/users-edit/users-edit.component';
 import { MessagesComponent } from './messages/messages.component';
 import { MessagesInputComponent } from './messages/messages-input.component';
+import { FieldErrorComponent } from './field-error/field-error.component';
 
 @NgModule({
   declarations: [
@@ -23,10 +24,12 @@ import { MessagesInputComponent } from './messages/messages-input.component';
       MessagesInputComponent,
       UsersComponent,
       HomeComponent,
-      UsersEditComponent
+      UsersEditComponent,
+      FieldErrorComponent
   ],
   imports: [
-    [ BrowserModule, FormsModule, AppBootstrapModule, AngularFontAwesomeModule, AppRoutingModule ]
+    [ BrowserModule, FormsModule, AppBootstrapModule, AngularFontAwesomeModule, AppRoutingModule,
+      ReactiveFormsModule ]
   ],
   providers: [],
   bootstrap: [AppComponent]

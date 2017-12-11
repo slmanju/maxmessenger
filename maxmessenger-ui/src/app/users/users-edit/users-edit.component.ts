@@ -1,8 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 
-import { User } from '../user.model';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import FormUtils from '../../field-error/FormUtil';
 
 @Component({
   selector: 'app-users-edit',
@@ -10,7 +11,7 @@ import { User } from '../user.model';
   styleUrls: ['./users-edit.component.css']
 })
 export class UsersEditComponent implements OnInit {
-  @Input() user: User;
+  userForm: FormGroup;
 
   constructor(
     private route: ActivatedRoute,
@@ -18,18 +19,43 @@ export class UsersEditComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.createForm();
+  }
+
+  private createForm() {
     const id = this.route.snapshot.paramMap.get('id');
     console.log('id ', id);
-    if (id) {
-      console.log('edit user');
+    this.userForm = new FormGroup({
+      firstName: new FormControl('', Validators.required),
+      lastName: new FormControl('', Validators.required),
+      email: new FormControl('', Validators.required),
+      password: new FormControl('', Validators.required)
+    });
+  }
+
+  save() {
+    console.log(this.userForm.value);
+    if (this.userForm.valid) {
+      console.log('form submitted');
     } else {
-      console.log('new user');
+      FormUtils.validateAllFormFields(this.userForm);
     }
-    this.user = new User('a', 'b', 'c', 'd', id);
   }
 
   goBack(): void {
     this.location.back();
+  }
+
+  isInvalid(field: string) {
+    return FormUtils.isFieldInvalid(this.userForm, field);
+  }
+
+  displayFieldCss(field: string) {
+    return FormUtils.displayFieldCss(this.userForm, field);
+  }
+
+  reset() {
+    this.userForm.reset();
   }
 
 }
