@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import FormUtils from '../../field-error/FormUtil';
 
 @Component({
@@ -15,7 +15,8 @@ export class UsersEditComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private location: Location
+    private location: Location,
+    private formBuilder: FormBuilder
   ) {}
 
   ngOnInit() {
@@ -25,7 +26,7 @@ export class UsersEditComponent implements OnInit {
   private createForm() {
     const id = this.route.snapshot.paramMap.get('id');
     console.log('id ', id);
-    this.userForm = new FormGroup({
+    this.userForm = this.formBuilder.group({
       firstName: new FormControl('', Validators.required),
       lastName: new FormControl('', Validators.required),
       email: new FormControl('', Validators.required),
