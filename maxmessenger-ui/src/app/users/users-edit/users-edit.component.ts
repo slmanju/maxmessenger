@@ -4,6 +4,8 @@ import { Location } from '@angular/common';
 
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import FormUtils from '../../field-error/FormUtil';
+import {UsersService} from "../users-service";
+import {Role} from "../role.model";
 
 @Component({
   selector: 'app-users-edit',
@@ -12,26 +14,47 @@ import FormUtils from '../../field-error/FormUtil';
 })
 export class UsersEditComponent implements OnInit {
   userForm: FormGroup;
+  roles: Role[] = [];
+  newUser = true;
 
   constructor(
     private route: ActivatedRoute,
     private location: Location,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private userService: UsersService
   ) {}
 
   ngOnInit() {
     this.createForm();
+    this.userService.getAllRoles().subscribe(roles => {
+      this.roles = roles.map(role => {
+        return new Role(role.code, role.name, role.id);
+      });
+    });
   }
 
   private createForm() {
     const id = this.route.snapshot.paramMap.get('id');
-    console.log('id ', id);
     this.userForm = this.formBuilder.group({
       firstName: new FormControl('', Validators.required),
       lastName: new FormControl('', Validators.required),
       email: new FormControl('', [ Validators.required, Validators.email ]),
-      password: new FormControl('', Validators.required)
+      password: new FormControl('', Validators.required),
+      role: new FormControl('', Validators.required)
     });
+    if (id) {
+      this.newUser = false;
+      this.userService.getUserById(id).subscribe(user => {
+        const role = new Role(user.role.code, user.role.name, user.role.id);
+        this.userForm = this.formBuilder.group({
+          firstName: new FormControl(user.firstName, Validators.required),
+          lastName: new FormControl(user.lastName, Validators.required),
+          email: new FormControl(user.email, [ Validators.required, Validators.email ]),
+          role: new FormControl(role, Validators.required)
+        });
+      },
+       error => console.log(<any>error));
+    }
   }
 
   save() {
@@ -57,6 +80,10 @@ export class UsersEditComponent implements OnInit {
 
   reset() {
     this.userForm.reset();
+  }
+
+  compare(val1, val2) {
+    return val1.id === val2.id;
   }
 
 }

@@ -25,11 +25,23 @@
     </div>
   </div>
 
-  <div class="form-group" [ngClass]="displayFieldCss('password')">
+  <div class="form-group" [ngClass]="displayFieldCss('password')" *ngIf="newUser">
     <div class="col-sm-12">
       <label for="password" class="control-label required">Password</label>
       <input type="password" id="password" class="form-control" formControlName="password">
       <app-field-error [displayError]="isInvalid('password')" errorMsg="Please provide password"></app-field-error>
+    </div>
+  </div>
+
+  <div class="form-group" [ngClass]="displayFieldCss('role')">
+    <div class="col-sm-12">
+      <label for="role" class="control-label required">Role</label>
+      <select name="role" id="role" class="form-control" formControlName="role" [compareWith]="compare">
+        <option value="">Please Select</option>
+        <option *ngFor="let arole of roles" [ngValue]="arole">
+          {{ arole.name }}
+        </option>
+      </select>
     </div>
   </div>
 

@@ -18,7 +18,11 @@ export class UsersComponent implements OnInit {
   }
 
   private initForm() {
-    this.userService.getUsers().subscribe(users => this.users = users);
+    this.userService.getUsers().subscribe(users => {
+      this.users = users.map(user => {
+        return new User(user.firstName, user.lastName, user.email, user.birthDate, user.id);
+      });
+    });
   }
 
 }
