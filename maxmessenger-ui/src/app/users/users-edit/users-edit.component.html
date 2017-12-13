@@ -70,7 +70,7 @@
              name="birthDate"
              [minDate]="minDate"
              [maxDate]="maxDate"
-             value="{{ birthDate | date:'yyyy-MM-dd' }}"
+             [(bsValue)]="bsValue" value="{{ bsValue | date:'yyyy-MM-dd' }}"
              #dp="bsDatepicker"
              bsDatepicker
              formControlName="birthDate"

@@ -21,6 +21,7 @@ export class UsersEditComponent implements OnInit {
   userId = '';
   minDate = new Date(2017, 5, 10);
   maxDate = new Date(2018, 9, 15);
+  bsValue: Date = new Date();
 
   constructor(
     private route: ActivatedRoute,
