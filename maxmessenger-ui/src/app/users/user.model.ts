@@ -12,11 +12,13 @@ export class User {
               lastName: string,
               email: string,
               birthDate: string,
+              role: Role,
               id?: string) {
       this.firstName = firstName;
       this.lastName = lastName;
       this.email = email;
       this.birthDate = birthDate;
+      this.role = role;
       this.id = id;
   }
 

@@ -27,6 +27,10 @@ export class UsersService {
     return this.http.get('http://localhost:8080/users/roles').map(this.extractData).catch(this.handleError);
   }
 
+  save(user: User): void {
+    this.http.post('http://localhost:8080/users', user).subscribe(value => console.log(value));
+  }
+
   private extractData(res: Response) {
         return res || [];
     }
