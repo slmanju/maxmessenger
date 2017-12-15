@@ -13,22 +13,24 @@ import {Role} from './role.model';
 export class UsersService {
   users: User[] = [];
 
+  usersUrl = 'http://localhost:8080/users';
+
   constructor(private http: HttpClient) { }
 
   getUsers(): Observable<User[]> {
-    return this.http.get('http://localhost:8080/users').map(this.extractData).catch(this.handleError);
+    return this.http.get(this.usersUrl).map(this.extractData).catch(this.handleError);
   }
 
   getUserById(id: string): Observable<User> {
-    return this.http.get('http://localhost:8080/users/' + id).map(this.extractData).catch(this.handleError);
+    return this.http.get(this.usersUrl + '/' + id).map(this.extractData).catch(this.handleError);
   }
 
   getAllRoles(): Observable<Role[]> {
-    return this.http.get('http://localhost:8080/users/roles').map(this.extractData).catch(this.handleError);
+    return this.http.get(this.usersUrl + '/roles').map(this.extractData).catch(this.handleError);
   }
 
   save(user: User): void {
-    this.http.post('http://localhost:8080/users', user).subscribe(value => console.log(value));
+    this.http.post(this.usersUrl, user).subscribe(value => console.log(value));
   }
 
   private extractData(res: Response) {
